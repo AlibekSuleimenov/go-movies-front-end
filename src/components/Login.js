@@ -9,12 +9,12 @@ const Login = () => {
     const { setJwtToken } = useOutletContext();
     const { setAlertClassName } = useOutletContext();
     const { setAlertMessage } = useOutletContext();
+    const { toggleRefresh } = useOutletContext();
 
     const navigate = useNavigate();
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log("email/pass", email, password);
 
         // build the request payload
         let payload = {
@@ -41,6 +41,7 @@ const Login = () => {
                     setJwtToken(data.access_token);
                     setAlertClassName("d-none");
                     setAlertMessage("");
+                    toggleRefresh(true);
                     navigate("/");
                 }
             }).catch(error => {
