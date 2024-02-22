@@ -129,6 +129,43 @@ const EditMovie = () => {
             return false;
         }
 
+        // passed validation, so save changes
+        const headers = new Headers();
+        headers.append("Content-Type", "application/json");
+        headers.append("Authorization", "Bearer " + jwtToken);
+
+        // assume we are adding a new movie
+        let method = "PUT";
+
+        if (movie.id > 0) {
+            method = "PATCH"
+        }
+
+        const requesBody = movie;
+        // we need to convert the values in JSON for release date (to date)
+        // for runtime to int
+
+        requesBody.release_date = new Date(movie.release_date);
+        requesBody.runtime = parseInt(movie.runtime, 10);
+
+        let requestOptions = {
+            body: JSON.stringify(requesBody),
+            method: method,
+            headers: headers,
+            credentials: "include",
+        };
+
+        fetch(`/admin/movies/${id}`, requestOptions)
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.error) {
+                    console.log(data.error);
+                } else {
+                    navigate("/manage-catalogue");
+                }
+            }).catch(error => {
+                console.log(error);
+            });
     };
 
     const handleChange = () => (event) => {
