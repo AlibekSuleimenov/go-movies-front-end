@@ -17,7 +17,7 @@ function App() {
       credentials: "include",
     };
 
-    fetch(`/logout`, requestOptions)
+    fetch(`${process.env.REACT_APP_BACKEND}/logout`, requestOptions)
       .catch(error => {
         console.log("error logging out", error);
       }).finally(() => {
@@ -39,7 +39,7 @@ function App() {
           credentials: "include",
         };
 
-        fetch(`/refresh`, requestOptions)
+        fetch(`${process.env.REACT_APP_BACKEND}/refresh`, requestOptions)
           .then((response) => response.json())
           .then((data) => {
             if (data.acces_token) {
@@ -66,7 +66,7 @@ function App() {
         credentials: "include",
       };
 
-      fetch(`/refresh`, requestOptions)
+      fetch(`${process.env.REACT_APP_BACKEND}/refresh`, requestOptions)
         .then((response) => response.json())
         .then((data) => {
           if (data.acces_token) {
@@ -88,7 +88,7 @@ function App() {
         <div className="col text-end">
           {jwtToken === "" ? (
             <Link to="/login"><span className="badge bg-success">Login</span></Link>
-            ) : ( <a href="#!" onClick={logOut}><span className='badge bg-danger'>Logout</span></a>
+          ) : (<a href="#!" onClick={logOut}><span className='badge bg-danger'>Logout</span></a>
           )}
         </div>
         <hr className="mb-3"></hr>
